@@ -1,0 +1,21 @@
+version: "3.1"
+services:
+  prometheus:
+    image: prom/prometheus
+    hostname: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+  skymavis:
+    build: .
+    hostname: skymavis
+    env_file:
+      - .env
+    ports:
+      - 9999:9999
+      - 8888:8888
+    volumes:
+      - ./sd.yaml:/config/sd.yaml
